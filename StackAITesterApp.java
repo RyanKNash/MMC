@@ -5,14 +5,14 @@
  */
 
 import java.util.Stack;
-import java.util.Random;
+//import java.util.Random;
 import java.io.*;
 import java.util.Scanner;
-import sun.audio.*;
+//import sun.audio.*;
 
 class Node {
     private Stack<Character> paths = new Stack<>();    
-    private Random spawner = new Random();
+    //private Random spawner = new Random();
     public boolean blocked;
     public boolean origin;
     public boolean destination;
@@ -191,7 +191,7 @@ class StackAITester {
 	    if(walker.destination == true) {
 		System.out.println("*> THE DESTINATION WAS FOUND AT CELL (" + x +
 				   ", " + y + ")" + " IN " + count + " MOVES! <*");
-	        new PlayWavFile("complete.wav");
+	        //new PlayWavFile("complete.wav");
 		walker = null;
 		return;
 	    }
@@ -209,7 +209,7 @@ class StackAITester {
 	    count++;
 	}
 	System.out.println("*> THE AUTOMATON DID NOT REACH THE DESTINATION <*");
-	new PlayWavFile("fail.wav");
+	//new PlayWavFile("fail.wav");
 	walker = null;
     }
 }

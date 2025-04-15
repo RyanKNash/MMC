@@ -1,0 +1,122 @@
+##UML
+
++------------------------------------------+
+|                   Node                   |
++------------------------------------------+
+| - paths: list                            |
+| - blocked: bool                          |
+| - origin: bool                           |
+| - destination: bool                      |
++------------------------------------------+
+| +put_path(c: char)                       |
+| +get_path(): char                        |
+| +peek_path(): char                       |
++------------------------------------------+
+
++------------------------------------------+
+|                   Board                  |
++------------------------------------------+
+| - SIZE: int                              |
+| - cells: 2D list[Node]                   |
++------------------------------------------+
+| +__init__(board_lines)                   |
+| +populate_cells(lines)                   |
+| +setup_paths()                           |
+| +get_origin() -> (int,int)               |
+| +access_cell(x,y): Node                  |
++------------------------------------------+
+
++------------------------------------------+
+|               MouseBrain                 |
++------------------------------------------+
+| - board: Board                           |
+| - visited: set                           |
+| - stack: list                            |
+| - path_memory: dict                      |
++------------------------------------------+
+| +__init__(board)                         |
+| +get_next_move() -> (x, y, goalReached?) |
++------------------------------------------+
+
++------------------------------------------+
+|            StackAITester                 |
++------------------------------------------+
+| - space: Board                           |
+| - brain: MouseBrain                      |
++------------------------------------------+
+| +__init__(lines)                         |
+| +walk_board()                            |
++------------------------------------------+
+
+
+##Psuedocode
+Class Node:
+    Initialize:
+        paths = empty list
+        blocked = False
+        origin = False
+        destination = False
+
+    put_path(direction):
+        Add direction to paths
+
+    get_path():
+        Pop last path from paths or return '*'
+
+    peek_path():
+        Return last path or '*'
+
+Class Board:
+    SIZE = 5
+    Initialize with board_lines:
+        Create 5x5 grid of Nodes
+        populate_cells(board_lines)
+        setup_paths()
+
+    populate_cells(lines):
+        For each line i:
+            For each character j:
+                Mark the cell as start, open, blocked, or destination
+
+    setup_paths():
+        For each cell:
+            If not blocked, add possible directions to paths list
+
+    get_origin():
+        Return coordinates of cell marked as origin
+
+    access_cell(x, y):
+        Return Node at position (x, y)
+
+Class MouseBrain:
+    Initialize with board:
+        visited = empty set
+        stack = [origin]
+        path_memory = {}
+
+    get_next_move():
+        While stack not empty:
+            pop position (x, y)
+            if already visited → continue
+            mark as visited
+            if cell is destination → return (x, y, True)
+            for each direction in reversed(paths):
+                compute neighbor position (nx, ny)
+                if in bounds and not visited:
+                    push (nx, ny) onto stack
+            return (x, y, False)
+        return None
+
+Class StackAITester:
+    Initialize with board_lines:
+        Create Board
+        Create MouseBrain
+
+    walk_board():
+        count = 0
+        loop:
+            next = brain.get_next_move()
+            if None → no path, print failure
+            print move
+            if destination found → print success
+            count += 1
